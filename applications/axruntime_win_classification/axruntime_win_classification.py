@@ -23,7 +23,8 @@ stddev = [0.229, 0.224, 0.225]
 
 parser = argparse.ArgumentParser(
     description="Real-time camera classification using Axelera runtime",
-    formatter_class=argparse.RawDescriptionHelpFormatter
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    add_help=False
 )
 
 parser.add_argument(
@@ -33,15 +34,11 @@ parser.add_argument(
 )
 parser.add_argument("--aipu-cores", type=int, default=4, help="Number of AIPU cores to use")
 parser.add_argument("--camera-id", type=int, default=0, help="Camera device ID (default: 0)")
-_DEFAULT_LABELS = os.path.expandvars(
-    "$AXELERA_FRAMEWORK/ax_datasets/labels/imagenet1000_clsidx_to_labels.txt"
-)
-_DEFAULT_LABELS = os.path.relpath(_DEFAULT_LABELS)
 parser.add_argument(
     "--labels",
     type=Path,
-    default=_DEFAULT_LABELS,
-    help="Path to text file containing labels (default:%(default)s)",
+    required=True,
+    help="Path to text file containing labels. If you don't have a specific labels file, you can use [voyager-sdk-installation-path]/examples/axruntime/imagenet-labels.txt from your voyager-sdk installation.",
 )
 parser.add_argument(
     "-v",
@@ -275,7 +272,12 @@ def main(args: argparse.Namespace):
 
 
 def entrypoint_main():
-    args = parser.parse_args()
+    try:
+        args = parser.parse_args()
+    except SystemExit:
+        parser.print_help()
+        return 1
+    
     try:
         return main(args)
     except RuntimeError as e:

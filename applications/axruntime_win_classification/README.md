@@ -2,6 +2,36 @@
 
 This application performs real-time image classification on your laptop camera feed using the Axelera AI runtime. It's designed for Windows 11 and provides live classification results overlaid on the camera stream.
 
+## Prerequisites
+
+**Before using this application, you must complete all steps from the [Windows Getting Started Guide](/docs/tutorials/windows/windows_getting_started.md).**
+
+This includes:
+1. Installing the Axelera Windows Driver
+2. Setting up the Voyager SDK using Windows Subsystem for Linux (WSL)
+3. Installing Python on Windows
+4. Installing Windows Axelera Components
+5. Activating the Python virtual environment
+
+Make sure you have:
+- ✅ Completed all installation steps from the Windows Getting Started Guide
+- ✅ Activated your Python virtual environment: `venv-win\Scripts\activate.bat`
+- ✅ Downloaded a classification model (e.g., ResNet50) using `./download_prebuilt.py resnet50-imagenet-onnx`
+
+## Quick Start Example
+
+From within your voyager-sdk installation directory (e.g., `C:\Axelera\voyager-sdk`), run:
+
+```cmd
+python.exe .\applications\axruntime_win_classification\axruntime_win_classification.py .\build\resnet50-imagenet-onnx\resnet50-imagenet-onnx\1\model.json --labels .\examples\axruntime\imagenet-labels.txt --camera-id 0
+```
+
+This command will:
+- Use the ResNet50 ImageNet model for classification
+- Display live camera feed with classification results
+- Show predicted class names and confidence scores
+- Use camera device ID 0 (default laptop camera)
+
 ## Features
 
 - **Real-time Classification**: Classifies objects in live camera feed
@@ -27,25 +57,13 @@ The application displays:
 
 ### Software
 - Python 3.8+
-- Axelera SDK environment activated
+- Axelera SDK environment activated (`venv-win\Scripts\activate.bat`)
 - OpenCV Python (`cv2`)
 - NumPy
 
 ### Models
 - ImageNet classification model (compiled for Axelera platform)
 - Model should output 1000 classes (standard ImageNet)
-
-## Installation
-
-1. Ensure the Axelera environment is activated:
-   ```bash
-   source venv/bin/activate
-   ```
-
-2. Navigate to the application directory:
-   ```bash
-   cd applications/axruntime_win_classification
-   ```
 
 ## Usage
 
@@ -67,25 +85,24 @@ python axruntime_win_classification.py /path/to/your/model.json
 
 ### Example Commands
 
-**Basic classification:**
-```bash
-python axruntime_win_classification.py models/resnet50/model.json
+**Using ResNet50 with default camera:**
+```cmd
+python.exe .\applications\axruntime_win_classification\axruntime_win_classification.py .\build\resnet50-imagenet-onnx\resnet50-imagenet-onnx\1\model.json --labels .\examples\axruntime\imagenet-labels.txt --camera-id 0
 ```
 
 **Using external camera:**
-```bash
-python axruntime_win_classification.py models/resnet50/model.json --camera-id 1
+```cmd
+python.exe .\applications\axruntime_win_classification\axruntime_win_classification.py .\build\resnet50-imagenet-onnx\resnet50-imagenet-onnx\1\model.json --labels .\examples\axruntime\imagenet-labels.txt --camera-id 1
 ```
 
 **With custom labels file:**
-```bash
-python axruntime_win_classification.py models/resnet50/model.json \
-    --labels /path/to/custom_labels.txt
+```cmd
+python.exe .\applications\axruntime_win_classification\axruntime_win_classification.py .\build\resnet50-imagenet-onnx\resnet50-imagenet-onnx\1\model.json --labels /path/to/custom_labels.txt
 ```
 
 **Verbose output for debugging:**
-```bash
-python axruntime_win_classification.py models/resnet50/model.json --verbose
+```cmd
+python.exe .\applications\axruntime_win_classification\axruntime_win_classification.py .\build\resnet50-imagenet-onnx\resnet50-imagenet-onnx\1\model.json --labels .\examples\axruntime\imagenet-labels.txt --verbose
 ```
 
 ## Controls
